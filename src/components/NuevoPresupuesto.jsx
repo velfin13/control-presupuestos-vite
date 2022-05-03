@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import Mensaje from "./Mensaje";
 
-const NuevoPresupuesto = ({ presupuesto, setPresupuesto }) => {
+const NuevoPresupuesto = (props) => {
+  const { presupuesto, setPresupuesto, setIsPresupuestoValid } = props;
   const [mensajeError, setMensajeError] = useState("");
 
+  console.log(presupuesto);
   const handlePresupuesto = (e) => {
     e.preventDefault();
 
-    if (!Number(presupuesto) || Number(presupuesto) < 0) {
+    if (!presupuesto || presupuesto < 0) {
       setMensajeError("valor invalido");
-    } else {
-      setMensajeError("");
+      setIsPresupuestoValid(false);
+      return;
     }
+    setIsPresupuestoValid(true);
+    setMensajeError("");
   };
 
   return (
@@ -20,7 +24,7 @@ const NuevoPresupuesto = ({ presupuesto, setPresupuesto }) => {
         <div className="campo">
           <label htmlFor="presupuesto">Definir Presupuesto</label>
           <input
-            type="text"
+            type="number"
             className="nuevo-presupuesto"
             placeholder="Agrega tu presupuesto"
             id="presupuesto"
