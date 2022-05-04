@@ -1,11 +1,20 @@
-const ControlPresupuesto = ({ presupuesto }) => {
+import { useEffect, useState } from "react";
+import { formatearCantidadToMoneda } from "../helpers";
 
-  const formatearCantidad = (cantidad = 0) => {
-    return cantidad.toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
-    });
-  };
+const ControlPresupuesto = ({ presupuesto, gastos }) => {
+  const [disponible, setDisponible] = useState(0);
+  const [gastado, setGastado] = useState(0);
+
+  useEffect(() => {
+    const totalGastado = gastos.reduce(
+      (total, gasto) => gasto.gasto + total,
+      0
+    );
+    const totalDisponible = presupuesto - totalGastado;
+
+    setDisponible(totalDisponible);
+    setGastado(totalGastado);
+  }, [gastos]);
 
   return (
     <div className="contenedor-presupuesto contenedor sombra dos-columnas">
@@ -15,15 +24,15 @@ const ControlPresupuesto = ({ presupuesto }) => {
 
       <div className="contenido-presupuesto">
         <p>
-          Presupuesto: <span>{formatearCantidad(presupuesto)}</span>
+          Presupuesto: <span>{formatearCantidadToMoneda(presupuesto)}</span>
         </p>
 
         <p>
-          Disponible: <span>{0}</span>
+          Disponible: <span>{formatearCantidadToMoneda(disponible)}</span>
         </p>
 
         <p>
-          Gastado: <span>{0}</span>
+          Gastado: <span>{formatearCantidadToMoneda(gastado)}</span>
         </p>
       </div>
     </div>
