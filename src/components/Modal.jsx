@@ -1,12 +1,37 @@
 import React, { useState } from "react";
+import Mensaje from "../components/Mensaje";
 import cerrarSVG from "../img/cerrar.svg";
 
-const Modal = ({ setModal, animarModal, setAnimarModal }) => {
+const Modal = (props) => {
+  const { setModal, animarModal, setAnimarModal, guardarGasto } = props;
+
+  const [nombre, setNombre] = useState("");
+  const [gasto, setGasto] = useState(0);
+  const [categoria, setCategoria] = useState("");
+  const [mensaje, setMensaje] = useState("");
+
   const handleCerrarModal = () => {
     setAnimarModal(false);
     setTimeout(() => {
       setModal(false);
     }, 500);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if ([nombre, gasto, categoria].includes("") || gasto < 0) {
+      setMensaje("todos los campos son obligatorios o el gasto es invalido");
+
+      setTimeout(() => {
+        setMensaje("");
+      }, 2500);
+
+      return;
+    }
+    setMensaje("");
+
+    guardarGasto({ nombre, gasto, categoria });
   };
 
   return (
@@ -15,8 +40,12 @@ const Modal = ({ setModal, animarModal, setAnimarModal }) => {
         <img src={cerrarSVG} alt="cerrar" onClick={handleCerrarModal} />
       </div>
 
-      <form className={`formulario ${animarModal ? "animar" : "cerrar"}`}>
+      <form
+        className={`formulario ${animarModal ? "animar" : "cerrar"}`}
+        onSubmit={handleSubmit}
+      >
         <legend>Nuevo Gasto</legend>
+        {mensaje && <Mensaje tipo="error">{mensaje}</Mensaje>}
 
         <div className="campo">
           <label htmlFor="nombre">Nombre del Gasto</label>
@@ -25,6 +54,8 @@ const Modal = ({ setModal, animarModal, setAnimarModal }) => {
             name="nombre"
             id="nombre"
             placeholder="Agrega el nombre del gasto"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
           />
         </div>
 
@@ -35,16 +66,23 @@ const Modal = ({ setModal, animarModal, setAnimarModal }) => {
             name="gasto"
             id="gasto"
             placeholder="Agrega valor del gasto"
+            value={gasto}
+            onChange={(e) => setGasto(Number(e.target.value))}
           />
         </div>
 
         <div className="campo">
           <label htmlFor="categoria">Categoria</label>
-          <select name="categoria" id="categoria">
+          <select
+            name="categoria"
+            id="categoria"
+            value={categoria}
+            onChange={(e) => setCategoria(e.target.value)}
+          >
             <option value="">-- Seleccione --</option>
             <option value="ahorro">Ahorro</option>
             <option value="comida">Comida</option>
-            <option value="gastos-varios">Gastos Varios</option>
+            <option value="gastosVarios">Gastos Varios</option>
             <option value="salud">Salud</option>
             <option value="suscripciones">Suscripciones</option>
             <option value="oscios">Oscios</option>
