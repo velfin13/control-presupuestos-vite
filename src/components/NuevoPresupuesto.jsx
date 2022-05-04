@@ -5,7 +5,6 @@ const NuevoPresupuesto = (props) => {
   const { presupuesto, setPresupuesto, setIsPresupuestoValid } = props;
   const [mensajeError, setMensajeError] = useState("");
 
-  console.log(presupuesto);
   const handlePresupuesto = (e) => {
     e.preventDefault();
 
