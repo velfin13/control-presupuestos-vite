@@ -8,7 +8,9 @@ import { generarID } from "./helpers";
 import nuevoGastoSVG from "./img/nuevo-gasto.svg";
 
 const App = () => {
-  const [presupuesto, setPresupuesto] = useState(0);
+  const [presupuesto, setPresupuesto] = useState(
+    Number(localStorage.getItem("presupuesto")) ?? 0
+  );
   const [isPresupuestoValid, setIsPresupuestoValid] = useState(false);
   const [modal, setModal] = useState(false);
   const [animarModal, setAnimarModal] = useState(false);
@@ -24,6 +26,17 @@ const App = () => {
       }, 300);
     }
   }, [gastoEditar]);
+
+  useEffect(() => {
+    localStorage.setItem("presupuesto", presupuesto ?? 0);
+  }, [presupuesto]);
+
+  useEffect(() => {
+    const presupuestoLS = localStorage.getItem("presupuesto") ?? 0;
+    if (presupuestoLS > 0) {
+      setIsPresupuestoValid(true);
+    }
+  }, []);
 
   const handleNuevoGasto = () => {
     setModal(true);
