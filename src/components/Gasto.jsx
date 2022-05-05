@@ -26,7 +26,7 @@ const diccionarioIconos = {
   oscios: ocioSVG,
 };
 
-const Gasto = ({ gasto, setGastoEditar }) => {
+const Gasto = ({ gasto, setGastoEditar ,eliminarGasto}) => {
   const leadingActions = () => (
     <LeadingActions>
       <SwipeAction onClick={() => setGastoEditar(gasto)}>Editar</SwipeAction>
@@ -35,7 +35,7 @@ const Gasto = ({ gasto, setGastoEditar }) => {
 
   const trailingActions = () => (
     <TrailingActions>
-      <SwipeAction onClick={() => console.log("editar")}>Eliminar</SwipeAction>
+      <SwipeAction onClick={() => eliminarGasto(gasto.id)}>Eliminar</SwipeAction>
     </TrailingActions>
   );
 

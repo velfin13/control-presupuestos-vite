@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import Header from "./components/Header";
 import Modal from "./components/Modal";
 import ListadoGastos from "./components/ListadoGastos";
@@ -53,6 +54,27 @@ const App = () => {
     }, 500);
   };
 
+  const eliminarGasto = (id) => {
+    Swal.fire({
+      title: "Estas seguro?",
+      text: "Una vez eliminado no se podra recuperar!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "eliminar!",
+      cancelButtonText: "cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const gastosActualizados = gastos.filter(
+          (gastoState) => gastoState.id !== id
+        );
+        setGastos(gastosActualizados);
+        Swal.fire("Eliminado!", "Eliminado sastifactoriamente.", "success");
+      }
+    });
+  };
+
   return (
     <div className={modal ? "fijar" : null}>
       <Header
@@ -66,7 +88,11 @@ const App = () => {
       {isPresupuestoValid && (
         <>
           <main>
-            <ListadoGastos setGastoEditar={setGastoEditar} gastos={gastos} />
+            <ListadoGastos
+              eliminarGasto={eliminarGasto}
+              setGastoEditar={setGastoEditar}
+              gastos={gastos}
+            />
           </main>
           <div className="nuevo-gasto">
             <img src={nuevoGastoSVG} alt="nuevo" onClick={handleNuevoGasto} />
@@ -76,6 +102,7 @@ const App = () => {
 
       {modal && (
         <Modal
+          setGastoEditar={setGastoEditar}
           gastoEditar={gastoEditar}
           setModal={setModal}
           animarModal={animarModal}

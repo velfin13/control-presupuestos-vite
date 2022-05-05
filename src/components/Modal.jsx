@@ -3,8 +3,14 @@ import Mensaje from "../components/Mensaje";
 import cerrarSVG from "../img/cerrar.svg";
 
 const Modal = (props) => {
-  const { setModal, animarModal, setAnimarModal, guardarGasto, gastoEditar } =
-    props;
+  const {
+    setModal,
+    animarModal,
+    setAnimarModal,
+    guardarGasto,
+    gastoEditar,
+    setGastoEditar,
+  } = props;
 
   const [nombre, setNombre] = useState("");
   const [gasto, setGasto] = useState(0);
@@ -25,6 +31,7 @@ const Modal = (props) => {
 
   const handleCerrarModal = () => {
     setAnimarModal(false);
+    setGastoEditar({})
     setTimeout(() => {
       setModal(false);
     }, 500);
