@@ -6,6 +6,7 @@ import ListadoGastos from "./components/ListadoGastos";
 import { generarID } from "./helpers";
 
 import nuevoGastoSVG from "./img/nuevo-gasto.svg";
+import Filtro from "./components/Filtro";
 
 const App = () => {
   const [presupuesto, setPresupuesto] = useState(
@@ -20,6 +21,8 @@ const App = () => {
       : []
   );
   const [gastoEditar, setGastoEditar] = useState({});
+  const [filtro, setFiltro] = useState("");
+  const [gastosFiltrados, setgastosFiltrados] = useState([]);
 
   useEffect(() => {
     if (Object.keys(gastoEditar).length > 0) {
@@ -38,6 +41,16 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem("gastos", JSON.stringify(gastos) ?? []);
   }, [gastos]);
+
+  useEffect(() => {
+    if (filtro) {
+      /* Filtras gastos por categorias */
+      const gastosFiltrados = gastos.filter(
+        (gastoState) => gastoState.categoria === filtro
+      );
+      setgastosFiltrados(gastosFiltrados);
+    }
+  }, [filtro]);
 
   useEffect(() => {
     const presupuestoLS = localStorage.getItem("presupuesto") ?? 0;
@@ -109,10 +122,13 @@ const App = () => {
       {isPresupuestoValid && (
         <>
           <main>
+            <Filtro filtro={filtro} setFiltro={setFiltro} />
             <ListadoGastos
+              gastosFiltrados={gastosFiltrados}
               eliminarGasto={eliminarGasto}
               setGastoEditar={setGastoEditar}
               gastos={gastos}
+              filtro={filtro}
             />
           </main>
           <div className="nuevo-gasto">
