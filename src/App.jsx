@@ -26,17 +26,26 @@ const App = () => {
 
   const handleNuevoGasto = () => {
     setModal(true);
-    setGastoEditar({})
-    
+    setGastoEditar({});
+
     setTimeout(() => {
       setAnimarModal(true);
     }, 300);
   };
 
   const guardarGasto = (gasto) => {
-    gasto.id = generarID();
-    gasto.date = Date.now();
-    setGastos([...gastos, gasto]);
+    if (gasto.id) {
+      /* Editar gasto */
+      const gastosActualizados = gastos.map((gastoState) =>
+        gastoState.id === gasto.id ? gasto : gastoState
+      );
+      setGastos(gastosActualizados);
+    } else {
+      /* Crear gasto */
+      gasto.id = generarID();
+      gasto.date = Date.now();
+      setGastos([...gastos, gasto]);
+    }
 
     setAnimarModal(false);
     setTimeout(() => {
