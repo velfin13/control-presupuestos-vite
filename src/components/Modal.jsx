@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Mensaje from "../components/Mensaje";
 import cerrarSVG from "../img/cerrar.svg";
 
 const Modal = (props) => {
-  const { setModal, animarModal, setAnimarModal, guardarGasto } = props;
+  const { setModal, animarModal, setAnimarModal, guardarGasto, gastoEditar } =
+    props;
 
   const [nombre, setNombre] = useState("");
   const [gasto, setGasto] = useState(0);
   const [categoria, setCategoria] = useState("");
   const [mensaje, setMensaje] = useState("");
+
+  useEffect(() => {
+    if (Object.keys(gastoEditar).length > 0) {
+      setNombre(gastoEditar.nombre);
+      setGasto(gastoEditar.gasto);
+      setCategoria(gastoEditar.categoria);
+    }
+  }, []);
 
   const handleCerrarModal = () => {
     setAnimarModal(false);
