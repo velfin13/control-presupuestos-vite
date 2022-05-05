@@ -8,13 +8,20 @@ const Header = (props) => {
     isPresupuestoValid,
     setIsPresupuestoValid,
     gastos,
+    setGastos,
   } = props;
 
   return (
     <header>
       <h1>Planificador de Gastos</h1>
       {isPresupuestoValid ? (
-        <ControlPresupuesto gastos={gastos} presupuesto={presupuesto} />
+        <ControlPresupuesto
+          setIsPresupuestoValid={setIsPresupuestoValid}
+          setPresupuesto={setPresupuesto}
+          setGastos={setGastos}
+          gastos={gastos}
+          presupuesto={presupuesto}
+        />
       ) : (
         <NuevoPresupuesto
           setIsPresupuestoValid={setIsPresupuestoValid}

@@ -112,6 +112,7 @@ const App = () => {
   return (
     <div className={modal ? "fijar" : null}>
       <Header
+        setGastos={setGastos}
         gastos={gastos}
         presupuesto={presupuesto}
         setPresupuesto={setPresupuesto}
