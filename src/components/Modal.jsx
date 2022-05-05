@@ -11,6 +11,7 @@ const Modal = (props) => {
   const [categoria, setCategoria] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [id, setId] = useState("");
+  const [fecha, setFecha] = useState("");
 
   useEffect(() => {
     if (Object.keys(gastoEditar).length > 0) {
@@ -18,6 +19,7 @@ const Modal = (props) => {
       setGasto(gastoEditar.gasto);
       setCategoria(gastoEditar.categoria);
       setId(gastoEditar.id);
+      setFecha(gastoEditar.date);
     }
   }, []);
 
@@ -42,7 +44,7 @@ const Modal = (props) => {
     }
     setMensaje("");
 
-    guardarGasto({ nombre, gasto, categoria, id });
+    guardarGasto({ nombre, gasto, categoria, id, date: fecha });
   };
 
   return (
